@@ -6,13 +6,12 @@ module.exports = (app) => {
     
     const service = new ProductService();
 
-
     app.post('/product/create', async(req,res,next) => {
         
         try {
             const { name, desc, type, unit,price, available, suplier, banner } = req.body; 
             // validation
-            const { data } =  await service.CreateProduct({ name, desc, type, unit,price, available, suplier, banner });
+            const { data } =  await service.CreateProduct({ name, desc, type, unit, price, available, suplier, banner });
             return res.json(data);
             
         } catch (err) {
@@ -84,7 +83,7 @@ module.exports = (app) => {
         const productId = req.params.id;
 
         try {
-            const { data } = await service.GetProductPayload(_id, { productId },'REMOVE_TO_WISHLIST')
+            const { data } = await service.GetProductPayload(_id, { productId },'REMOVE_FROM_WISHLIST')
 
             PublishCustomerEvent(data);
             return res.status(200).json(data.data.product);
@@ -121,13 +120,13 @@ module.exports = (app) => {
         const productId = req.params.id;
 
         try {
-            const { data } = await service.GetProductPayload(_id, { productId: req.body._id, qty: req.body.qty },'REMOVE_FROM_CART')
+            const { data } = await service.GetProductPayload(_id, { productId},'REMOVE_FROM_CART')
 
             PublishCustomerEvent(data);
             PublishShoppingEvent(data);
  
             const response = {
-                products: data.data.product,
+                product: data.data.product,
                 unit: data.data.qty
             }
 
