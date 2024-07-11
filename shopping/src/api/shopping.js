@@ -15,7 +15,7 @@ module.exports = (app) => {
         try {
             const { data } = await service.PlaceOrder({_id, txnNumber});
 
-            const payload =await service.GetProductPayload(_id, data, 'CREATE_ORDER');
+            const payload =await service.GetOrderPayload(_id, data, 'CREATE_ORDER');
 
             PublishCustomerEvent(payload);
             
@@ -55,11 +55,12 @@ module.exports = (app) => {
 
     app.get('/cart', UserAuth, async(req,res,next) => {
 
-        const { _id } =req.user;
+        const { _id } = req.user;
 
         try{
             const {data} =await service.getCart({ _id });
-    
+            console.log('data',data)
+
             return res.status(200).json(data);
 
         }catch(err){

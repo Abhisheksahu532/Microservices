@@ -107,6 +107,8 @@ module.exports = (app) => {
                 products: data.data.product,
                 unit: data.data.qty
             }
+            console.log('put data', response)
+
             return res.status(200).json(response);
             
         } catch (err) {

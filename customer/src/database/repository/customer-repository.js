@@ -142,10 +142,10 @@ class CustomerRepository {
     }
   }
 
-  async AddCartItem({_id, name, price, banner}, qty, isRemove) {
+  async AddCartItem(customerId, {  _id, name, price, banner }, qty, isRemove) {
     try {
       const profile = await CustomerModel.findById(customerId).populate(
-        "cart.product"
+        "cart"
       );
 
       if (profile) {
@@ -155,7 +155,7 @@ class CustomerRepository {
         };
 
         let cartItems = profile.cart;
-
+ 
         if (cartItems.length > 0) {
           let isExist = false;
           cartItems.map((item) => {
@@ -184,7 +184,7 @@ class CustomerRepository {
         return cartSaveResult;
       }
 
-      throw new Error("Unable to add to cart!");
+      throw Error("Unable to add to cart!");
     } catch (err) {
       throw new APIError(
         "API Error",
@@ -213,7 +213,7 @@ class CustomerRepository {
 
       throw new Error("Unable to add to order!");
     } catch (err) {
-      throw new APIError(
+      throw  new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
         "Unable to Create Customer"
