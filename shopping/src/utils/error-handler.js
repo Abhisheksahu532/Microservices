@@ -41,11 +41,12 @@ const ErrorHandler = async(err,req,res,next) => {
     process.on('uncaughtException', (reason, promise) => {
         console.log(reason, 'UNHANDLED');
         throw reason; // need to take care
-    })
+    });
 
     process.on('uncaughtException', (error) => {
         errorLogger.logError(error);
         if(errorLogger.isTrustError(err)){
+            process.exit(1);
             //process exist // need restart
         }
     })
@@ -62,6 +63,7 @@ const ErrorHandler = async(err,req,res,next) => {
             }
             return res.status(err.statusCode).json({'message': err.message })
         }else{
+            // process.exit(1);
             //process exit // terriablly wrong with flow need restart
         }
         return res.status(err.statusCode).json({'message': err.message})
