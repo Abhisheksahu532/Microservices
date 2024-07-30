@@ -19,8 +19,9 @@ db
 /build
 
 #misc
-*/.env
-*/.env.dev
+**/.env
+**/.env.dev
+
 
 # # misc
 # .DS_Store
